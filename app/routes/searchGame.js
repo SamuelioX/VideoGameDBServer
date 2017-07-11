@@ -11,8 +11,8 @@ var mysql = require('mysql');
 
 var router = express.Router();
 
-router.get('/', function (req, res) {
-    var searchName = req.query.gamename;
+router.get('/:gamename', function (req, res) {
+    var searchName = req.params.gamename;
     searchGame(searchName, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
@@ -23,7 +23,10 @@ function searchGame(searchName, callback) {
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
     // # get user data
-
+    if (searchName == undefined) {
+        callback({"success": false, "message": "searchName not supplied, but required."});
+        return;
+    }
     //table concats system type by '
     var userQuery = "SELECT video_game_info.name, video_game_info.id " +
             "FROM video_game_info WHERE video_game_info.name LIKE " + 

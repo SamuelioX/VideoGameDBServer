@@ -7,11 +7,11 @@ var express = require('express');
 
 // Get database access
 var db = require('../db');
-
+var mysql = require('mysql');
 var router = express.Router();
 
-router.get('/', function (req, res) {
-    var userId = req.query.userId;
+router.get('/:userId', function (req, res) {
+    var userId = req.params.userId;
     getUserGameList(userId, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
@@ -22,13 +22,16 @@ function getUserGameList(userId, callback) {
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
     // # get user data
-
+    if (userId == undefined) {
+        callback({"success": false, "message": "userId not supplied, but required."});
+        return;
+    }
     //table concats system type by '
     var userQuery = "SELECT game_status.status_id, game_status.game_id, status_info.type, video_game_info.name, review.review_score FROM game_status " +
             "INNER JOIN status_info ON game_status.status_id = status_info.id " +
             "INNER JOIN video_game_info ON game_status.game_id = video_game_info.id " +
             "INNER JOIN review ON review.game_id = video_game_info.id " +
-            "WHERE review.user_id = " + userId + ";";
+            "WHERE review.user_id = " + mysql.escape(userId) + ";";
 //    var userQuery = "SELECT * FROM video_game_info";
     // Get database connection and run query
     db.get().query(userQuery, function (err, rows) {

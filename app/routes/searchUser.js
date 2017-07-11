@@ -11,8 +11,8 @@ var mysql = require('mysql');
 
 var router = express.Router();
 
-router.get('/', function (req, res) {
-    var searchName = req.query.username;
+router.get('/:username', function (req, res) {
+    var searchName = req.params.username;
     searchUser(searchName, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
@@ -23,7 +23,10 @@ function searchUser(searchName, callback) {
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
     // # get user data
-
+    if (searchName == undefined) {
+        callback({"success": false, "message": "searchName not supplied, but required."});
+        return;
+    }
     //table concats system type by '
     var userQuery = "SELECT username, email " +
             "FROM user WHERE user.username = " + mysql.escape(searchName) + ";";

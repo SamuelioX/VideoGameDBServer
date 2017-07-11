@@ -7,7 +7,6 @@ var express = require('express');
 
 // Get database access
 var db = require('../db');
-
 var router = express.Router();
 
 router.get('/', function (req, res) {

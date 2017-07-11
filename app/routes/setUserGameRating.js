@@ -25,8 +25,16 @@ function setUserGameRating(userId, gameId, scoreId, callback) {
     // Connect to the database
     db.connect(db.MODE_DEVELOPMENT);
 //    console.log(user);
+    if (gameId == undefined) {
+        callback({"success": false, "message": "gameId not supplied, but required."});
+        return;
+    }
+    if (userId == undefined || userId == null) {
+        callback({"success": false, "message": "userId not supplied, but required."});
+        return;
+    }
     var checkCurrentStatusQuery = "SELECT * FROM videogame.review " +
-            "WHERE user_id = " + userId + " AND game_id = " + gameId + ";";
+            "WHERE user_id = " + mysql.escape(userId) + " AND game_id = " + mysql.escape(gameId) + ";";
     db.get().query(checkCurrentStatusQuery, function (err, rows) {
         if (err) {
             console.log(err);

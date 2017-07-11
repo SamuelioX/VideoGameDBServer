@@ -7,11 +7,11 @@ var express = require('express');
 
 // Get database access
 var db = require('../db');
-
+var mysql = require('mysql');
 var router = express.Router();
 
-router.get('/', function (req, res) {
-    var userId = req.query.userId;
+router.get('/:userId', function (req, res) {
+    var userId = req.params.userId;
     getUserDetails(userId, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
@@ -28,7 +28,7 @@ function getUserDetails(userId, callback) {
     }
     //table concats system type by '
     var userQuery = "SELECT username, user_join_date, email FROM user " +
-            "WHERE user.id = " + userId;
+            "WHERE user.id = " + mysql.escape(userId);
     // Get database connection and run query
     db.get().query(userQuery, function (err, rows) {
         if (err) {

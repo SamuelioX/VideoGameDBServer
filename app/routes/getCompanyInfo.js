@@ -7,11 +7,11 @@ var express = require('express');
 
 // Get database access
 var db = require('../db');
-
+var mysql = require('mysql');
 var router = express.Router();
 
-router.get('/', function (req, res) {
-    var companyId = req.query.companyId;
+router.get('/:companyId', function (req, res) {
+    var companyId = req.params.companyId;
     getCompanyInfo(companyId, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);
@@ -46,7 +46,7 @@ function getCompanyInfo(companyId, callback) {
             "LEFT JOIN developer on developer.id = game_developer.developer_id " +
             "LEFT JOIN publisher on publisher.id = game_publisher.publisher_id " +
             "LEFT JOIN genre_info on genre_info.id = game_genre.genre_id " +
-            "WHERE video_game_info.id = " + companyId + " " +
+            "WHERE video_game_info.id = " + mysql.escape(companyId) + " " +
             "GROUP BY video_game_info.id;";
 //    var userQuery = "SELECT * FROM video_game_info WHERE id = " + companyId;
     // Get database connection and run query

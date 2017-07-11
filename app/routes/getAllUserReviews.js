@@ -7,7 +7,7 @@ var express = require('express');
 
 // Get database access
 var db = require('../db');
-
+var mysql = require('mysql');
 var router = express.Router();
 
 router.get('/', function (req, res) {
@@ -27,7 +27,7 @@ function getAllUserReviews(userId, callback) {
     var userQuery = "SELECT user.username, review.review_text, review.review_score, video_game_info.name FROM review " +
             "INNER JOIN video_game_info ON video_game_info.id = review.game_id " +
             "INNER JOIN user ON review.user_id = user.id " +
-            "WHERE user.id = " + userId + ";";
+            "WHERE user.id = " + mysql.escape(userId) + ";";
 //    var userQuery = "SELECT * FROM video_game_info";
     // Get database connection and run query
     db.get().query(userQuery, function (err, rows) {

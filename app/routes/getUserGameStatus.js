@@ -11,8 +11,8 @@ var mysql = require('mysql');
 var router = express.Router();
 
 router.get('/user/:userId/game/:gameId', function (req, res) {
-    var gameId = req.body.gameId;
-    var userId = req.body.userId;
+    var gameId = req.params.gameId;
+    var userId = req.params.userId;
     getUserGameStatus(gameId, userId, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);

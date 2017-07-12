@@ -11,8 +11,8 @@ var mysql = require('mysql');
 
 var router = express.Router();
 
-router.get('/:gamename', function (req, res) {
-    var searchName = req.params.gamename;
+router.get('/', function (req, res) {
+    var searchName = req.query.gamename;
     searchGame(searchName, function (data) {
         res.setHeader('Content-Type', 'application/json');
         res.json(data);

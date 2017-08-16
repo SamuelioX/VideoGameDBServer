@@ -2,7 +2,7 @@
 language: node_js
 
 before_install:
- - chmod +x test.js
+ - chmod +x test/test.js
  
 node_js:
   - "6"

@@ -4,7 +4,7 @@ var should = chai.should();
 var expect = chai.expect;
 var have = chai.have;
 var supertest = require("supertest");
-var server = supertest.agent('http://localhost:8080');
+var server = supertest.agent('http://vglist1.us-west-2.elasticbeanstalk.com');
 //var testModule = require("../app/routes/zdUserRoute").test;
 
 //test to see if unit testing works

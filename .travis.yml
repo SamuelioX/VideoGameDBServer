@@ -1,6 +1,9 @@
 # Config File for Travis CI tests
 language: node_js
 
+before_install:
+ - chmod +x test.js
+ 
 node_js:
   - "6"
 

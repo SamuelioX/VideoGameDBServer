@@ -15,13 +15,13 @@ describe('Array', function () {
     });
 });
 
-describe("Test Server Connection", function () {
-    it('server should be able to connect', function (done) {
-        //testing out the connection here
-        server.get('/')
-                .expect(200)
-                .end(function (err, res) {
-                    done(err);
-                });
-    }).timeout(120000);
-});
+//describe("Test Server Connection", function () {
+//    it('server should be able to connect', function (done) {
+//        //testing out the connection here
+//        server.get('/')
+//                .expect(200)
+//                .end(function (err, res) {
+//                    done(err);
+//                });
+//    }).timeout(120000);
+//});
